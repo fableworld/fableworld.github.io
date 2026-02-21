@@ -15,9 +15,13 @@ const { lang } = Astro.params;
 // Ensure lang is valid, though getStaticPaths handles it
 const currentLang = (lang as keyof typeof ui) || 'en';
 const t = useTranslations(currentLang);
+
+const metaDescription = currentLang === 'it' 
+  ? "Il portale per le tue storie Faba. Scopri OpenFable per i personaggi e FableForge per gestire il tuo dispositivo."
+  : "The hub for your Faba stories. Discover OpenFable for characters and FableForge to manage your device.";
 ---
 
-<Layout title="FableWorld - OpenFable & FableForge" lang={currentLang}>
+<Layout title="FableWorld - OpenFable & FableForge" description={metaDescription} lang={currentLang}>
   <Header lang={currentLang} />
   
   <main>
