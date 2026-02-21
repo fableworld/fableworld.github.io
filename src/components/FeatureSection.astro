@@ -1,0 +1,88 @@
+---
+interface Props {
+  id: string;
+  title: string;
+  description: string;
+  imageSrc?: string; // Optional image
+  reverse?: boolean;
+  gradientFrom?: string;
+  gradientTo?: string;
+  features?: string[];
+  ctaLink?: string;
+  ctaText?: string;
+}
+
+const { 
+  id, 
+  title, 
+  description, 
+  imageSrc, 
+  reverse = false, 
+  gradientFrom = 'from-primary-500', 
+  gradientTo = 'to-purple-600',
+  features = [],
+  ctaLink,
+  ctaText
+} = Astro.props;
+---
+
+<section id={id} class="py-24 relative overflow-hidden">
+  <div class={`absolute inset-0 bg-gradient-to-b ${reverse ? 'from-transparent via-primary-900/10 to-transparent' : 'from-slate-900 via-slate-900 to-slate-900'}`}></div>
+  
+  <div class="mx-auto max-w-7xl px-6 lg:px-8 relative z-10">
+    <div class={`mx-auto grid max-w-2xl grid-cols-1 gap-x-16 gap-y-16 lg:mx-0 lg:max-w-none lg:grid-cols-2 lg:items-center ${reverse ? 'lg:grid-flow-dense' : ''}`}>
+      
+      <!-- Content Side -->
+      <div class={reverse ? 'lg:col-start-2' : 'lg:col-start-1'}>
+        <div class="lg:max-w-lg">
+          <div class={`inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${gradientFrom} ${gradientTo} shadow-lg mb-6`}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+          </div>
+          <h2 class="font-display text-3xl font-bold tracking-tight text-white sm:text-4xl">{title}</h2>
+          <p class="mt-6 text-lg leading-8 text-slate-300">{description}</p>
+          
+          <ul class="mt-8 space-y-3">
+            {features.map((feature) => (
+              <li class="flex items-center gap-3 text-slate-300">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary-400 shrink-0"><polyline points="20 6 9 17 4 12"/></svg>
+                {feature}
+              </li>
+            ))}
+          </ul>
+
+          {ctaLink && (
+            <div class="mt-10">
+              <a href={ctaLink} class="text-sm font-semibold leading-6 text-primary-400 hover:text-primary-300 flex items-center gap-1">
+                {ctaText} <span aria-hidden="true">→</span>
+              </a>
+            </div>
+          )}
+        </div>
+      </div>
+
+      <!-- Image/Visual Side -->
+      <div class={`${reverse ? 'lg:col-start-1' : 'lg:col-start-2'} relative`}>
+         <!-- Decorative glow -->
+         <div class={`absolute -inset-4 rounded-xl bg-gradient-to-r ${gradientFrom} ${gradientTo} opacity-20 blur-2xl lg:-inset-8`}></div>
+         
+         <!-- Placeholder for Image or Actual Screenshot -->
+         <div class="relative aspect-[16/9] overflow-hidden rounded-xl border border-white/10 bg-slate-800 shadow-2xl ring-1 ring-white/10 flex items-center justify-center group">
+            {imageSrc ? (
+               <img src={imageSrc} alt={title} class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+            ) : (
+               <div class="text-slate-500 flex flex-col items-center gap-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="opacity-50"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+                  <span class="text-sm">Screenshot Placeholder</span>
+               </div>
+            )}
+            
+            <!-- Floating badge -->
+            <div class="absolute bottom-4 left-4 rounded-lg bg-slate-900/80 backdrop-blur-md px-4 py-2 text-xs font-medium text-white border border-white/10 shadow-lg">
+               Feature Preview
+            </div>
+         </div>
+      </div>
+
+    </div>
+  </div>
+</section>

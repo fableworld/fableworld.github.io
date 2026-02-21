@@ -1,0 +1,64 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Hero from '../../components/Hero.astro';
+import FeatureSection from '../../components/FeatureSection.astro';
+import Footer from '../../components/Footer.astro';
+import { languages, ui, useTranslations } from '../../i18n/ui';
+
+export function getStaticPaths() {
+  return Object.keys(languages).map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params;
+
+// Ensure lang is valid, though getStaticPaths handles it
+const currentLang = (lang as keyof typeof ui) || 'en';
+const t = useTranslations(currentLang);
+---
+
+<Layout title="FableWorld - OpenFable & FableForge" lang={currentLang}>
+  <Header lang={currentLang} />
+  
+  <main>
+    <Hero t={t} />
+    
+    <!-- OpenFable Section -->
+    <FeatureSection 
+      id="openfable"
+      title={t('openfable.title')}
+      description={t('openfable.desc')}
+      features={[
+        "Browse 100+ community characters",
+        "Preview audio tracks directly",
+        "Generate custom QR codes",
+        "Mobile-friendly PWA"
+      ]}
+      ctaLink="https://openfable.web.app"
+      ctaText="Explore OpenFable"
+      gradientFrom="from-indigo-500"
+      gradientTo="to-cyan-400"
+      reverse={false}
+    />
+
+    <!-- FableForge Section -->
+    <FeatureSection 
+      id="fableforge"
+      title={t('fableforge.title')}
+      description={t('fableforge.desc')}
+      features={[
+        "Drag & Drop track management",
+        "Automatic file conversion",
+        "Complete device backup/restore",
+        "Cross-platform (Windows, macOS, Linux)"
+      ]}
+      ctaLink="https://github.com/fable-world/fableforge"
+      ctaText="Download on GitHub"
+      gradientFrom="from-purple-600"
+      gradientTo="to-indigo-600"
+      reverse={true}
+    />
+  </main>
+
+  <Footer />
+</Layout>
