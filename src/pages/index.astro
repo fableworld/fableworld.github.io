@@ -1,4 +1,18 @@
----
-// Redirect to default language
-return Astro.redirect('/it/');
----
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="refresh" content="0;url=/it/">
+  <script>
+    // Client-side language detection
+    const userLang = navigator.language || navigator.userLanguage; 
+    if (userLang.startsWith('en')) {
+      window.location.replace('/en/');
+    } else {
+      window.location.replace('/it/');
+    }
+  </script>
+</head>
+<body>
+</body>
+</html>
